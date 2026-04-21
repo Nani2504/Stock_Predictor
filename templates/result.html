@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stock Analysis Result</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+}
+
+.container{
+width:90%;
+max-width:900px;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:10px;
+margin-bottom:30px;
+box-shadow:0px 10px 25px rgba(0,0,0,0.4);
+color:#333;
+text-align:center;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+img{
+width:100%;
+max-width:700px;
+margin-top:20px;
+border-radius:6px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th, td{
+padding:12px;
+border-bottom:1px solid #ddd;
+text-align:center;
+}
+
+th{
+background:#2c5364;
+color:white;
+}
+
+.analysis{
+margin-top:15px;
+padding:20px;
+background:#f5f5f5;
+border-radius:8px;
+}
+
+.analysis p{
+margin:10px 0;
+font-size:16px;
+}
+
+a{
+display:inline-block;
+margin-top:20px;
+padding:10px 20px;
+background:#2c5364;
+color:white;
+text-decoration:none;
+border-radius:5px;
+}
+
+a:hover{
+background:#203a43;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Candlestick Chart -->
+
+<div class="card">
+
+<h2>Candlestick Chart</h2>
+
+<img src="{{ url_for('static', filename=candle_chart) }}">
+
+</div>
+
+
+<!-- Prediction Chart -->
+
+<div class="card">
+
+<h2>Prediction Chart</h2>
+
+<img src="{{ url_for('static', filename=pred_chart) }}">
+
+</div>
+
+
+<!-- Market Sentiment -->
+
+<div class="card">
+
+<h2>Market Sentiment</h2>
+
+<div class="analysis">
+
+<p>
+<strong>Sentiment :</strong>
+{% if sentiment == "Positive" %}
+<span style="color:green;">🟢 Positive</span>
+{% elif sentiment == "Negative" %}
+<span style="color:red;">🔴 Negative</span>
+{% else %}
+<span style="color:orange;">🟡 Neutral</span>
+{% endif %}
+</p>
+
+<p>
+<strong>Market Signal :</strong>
+{% if signal == "Bullish" %}
+<span style="color:green;">🟢 Bullish</span>
+{% elif signal == "Bearish" %}
+<span style="color:red;">🔴 Bearish</span>
+{% else %}
+<span style="color:orange;">🟡 Sideways</span>
+{% endif %}
+</p>
+
+<p>
+<strong>Momentum :</strong> {{ gauge }} %
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Technical Analysis -->
+
+<div class="card">
+
+<h2>Technical Analysis</h2>
+
+<div class="analysis">
+
+<p><strong>Candlestick Pattern :</strong> {{ pattern }}</p>
+
+<p><strong>Support Level :</strong> {{ support }}</p>
+
+<p><strong>Resistance Level :</strong> {{ resistance }}</p>
+
+<p><strong>RSI Momentum :</strong> {{ rsi }}</p>
+
+</div>
+
+</div>
+
+
+<!-- Prediction Table -->
+
+<div class="card">
+
+<h2>5 Day Forecast</h2>
+
+<table>
+
+<tr>
+<th>Date</th>
+<th>Predicted Price</th>
+</tr>
+
+{% for date,value in results %}
+
+<tr>
+<td>{{ date }}</td>
+<td>{{ value }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<div style="text-align:center">
+
+<a href="/">Go Back</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
